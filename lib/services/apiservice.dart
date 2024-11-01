@@ -33,4 +33,14 @@ class Apiservice {
 //       return null;
 //     }
 //   }
+  Future<Product> fetchProductById(int id) async {
+    final response =
+        await http.get(Uri.parse('https://dummyjson.com/products/$id'));
+
+    if (response.statusCode == 200) {
+      return Product.fromRawJson(response.body);
+    } else {
+      throw Exception('Failed to load product details');
+    }
+  }
 }
