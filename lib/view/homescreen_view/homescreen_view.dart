@@ -47,62 +47,77 @@ class HomescreenView extends StatelessWidget {
                   return ListView.separated(
                     itemBuilder: (context, index) {
                       final category = state.product![index];
-                      return Column(
-                        // Return the Column widget
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            category.category ?? '',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 10),
-                          Container(
-                            height: 150, // Fixed height for inner ListView
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: category.images?.length ?? 0,
-                              itemBuilder: (context, itemIndex) => InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProductscreenView(),
+                      return Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              category.category ?? '',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              height: 150, // Fixed height for inner ListView
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: category.images?.length ?? 0,
+                                itemBuilder: (context, itemIndex) {
+                                  // Ensure we don't access an out-of-range index
+                                  final imageUrl = category.images?[itemIndex];
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductscreenView(),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 150,
+                                      margin: EdgeInsets.only(right: 10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            height: 100,
+                                            width: 100,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: NetworkImage(
+                                                  imageUrl ?? '',
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Text(category.title ?? ""),
+                                          Text(
+                                            category.description ?? "",
+                                            maxLines: 3,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            '${category.price}',
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   );
                                 },
-                                child: Container(
-                                  width: 100,
-                                  margin: EdgeInsets.only(right: 10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.network(
-                                        category.images![
-                                            itemIndex], // Placeholder URL
-                                        fit: BoxFit.cover,
-                                      ),
-                                      Text(category.title ?? ""),
-                                      Text(
-                                        category.description ?? "",
-                                        maxLines: 3,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Text(
-                                        '${category.price}', // Use itemIndex here for price
-                                      ),
-                                    ],
-                                  ),
-                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       );
                     },
-                    separatorBuilder: (context, index) => SizedBox(height: 40),
+                    separatorBuilder: (context, index) => SizedBox(height: 100),
                     itemCount: state.product!.length,
                   );
                 },
