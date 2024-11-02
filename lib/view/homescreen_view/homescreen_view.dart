@@ -1,9 +1,6 @@
 import 'package:experelmachinetest/view/homescreen_view/bloc/product/bloc/product_bloc.dart';
-
 import 'package:experelmachinetest/view/homescreen_view/bloc/product/bloc/product_state.dart';
 import 'package:experelmachinetest/view/homescreen_view/widget/categorycard.dart';
-
-import 'package:experelmachinetest/view/productscreen_view/productscreen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

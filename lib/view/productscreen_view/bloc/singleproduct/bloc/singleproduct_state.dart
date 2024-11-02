@@ -1,6 +1,17 @@
-part of 'singleproduct_bloc.dart';
+import 'package:experelmachinetest/model/singleproduct_model.dart';
 
-@immutable
-sealed class SingleproductState {}
+abstract class SingleproductState {}
 
 final class SingleproductInitial extends SingleproductState {}
+
+class ProductDetailLoading extends SingleproductState {}
+
+class ProductDetailLoaded extends SingleproductState {
+  final Singleproductmodel singleproduct;
+  ProductDetailLoaded(this.singleproduct);
+}
+
+class ProductDetailError extends SingleproductState {
+  final String error;
+  ProductDetailError(this.error);
+}
