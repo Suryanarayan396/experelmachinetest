@@ -1,4 +1,5 @@
-import 'package:experelmachinetest/product/bloc/product_bloc.dart';
+import 'package:experelmachinetest/view/homescreen_view/bloc/product/bloc/product_bloc.dart';
+import 'package:experelmachinetest/view/homescreen_view/bloc/product/bloc/product_event.dart';
 import 'package:experelmachinetest/services/apiservice.dart';
 import 'package:experelmachinetest/view/homescreen_view/homescreen_view.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,8 @@ void main() {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<ProductBloc>(
-        create: (context) => ProductBloc(Apiservice())..add(Fetch()),
+        create: (context) =>
+            ProductBloc(Apiservice())..add(LoadProductsByCategory()),
       ),
     ],
     child: MyApp(),

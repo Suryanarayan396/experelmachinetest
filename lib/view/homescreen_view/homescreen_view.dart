@@ -1,4 +1,7 @@
-import 'package:experelmachinetest/product/bloc/product_bloc.dart';
+import 'package:experelmachinetest/view/homescreen_view/bloc/product/bloc/product_bloc.dart';
+
+import 'package:experelmachinetest/view/homescreen_view/bloc/product/bloc/product_state.dart';
+
 import 'package:experelmachinetest/view/productscreen_view/productscreen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,12 +11,13 @@ class HomescreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Providing ProductBloc with the Apiservice
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Icon(Icons.menu, color: Colors.black),
-        actions: [
+        title: const Icon(Icons.menu, color: Colors.black),
+        actions: const [
           Icon(
             Icons.shopping_cart,
             size: 30,
@@ -40,86 +44,98 @@ class HomescreenView extends StatelessWidget {
             Expanded(
               child: BlocBuilder<ProductBloc, ProductState>(
                 builder: (context, state) {
-                  if (state.product == null || state.product!.isEmpty) {
+                  if (state is ProductLoading) {
                     return Center(child: CircularProgressIndicator());
-                  }
-
-                  return ListView.separated(
-                    itemBuilder: (context, index) {
-                      final category = state.product![index];
-                      return Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              category.category ?? '',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 10),
-                            Container(
-                              height: 150, // Fixed height for inner ListView
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: category.images?.length ?? 0,
-                                itemBuilder: (context, itemIndex) {
-                                  // Ensure we don't access an out-of-range index
-                                  final imageUrl = category.images?[itemIndex];
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductscreenView(),
-                                        ),
-                                      );
-                                    },
-                                    child: Container(
-                                      width: 150,
-                                      margin: EdgeInsets.only(right: 10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            height: 100,
-                                            width: 100,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                fit: BoxFit.fill,
-                                                image: NetworkImage(
-                                                  imageUrl ?? '',
+                  } else if (state is ProductLoaded) {
+                    // Ensure that products are displayed correctly
+                    return ListView.separated(
+                      itemBuilder: (context, index) {
+                        final category =
+                            state.productsByCategory.keys.toList()[index];
+                        final products =
+                            state.productsByCategory[category] ?? [];
+                        return Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                category,
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                height: 250, // Fixed height for inner ListView
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: products.length,
+                                  itemBuilder: (context, itemIndex) {
+                                    final product = products[itemIndex];
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProductscreenView(),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        width: 150,
+                                        margin: EdgeInsets.only(right: 10),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              height: 100,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color:
+                                                    Colors.grey.withOpacity(.5),
+                                                image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                      product.images![0]),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Text(category.title ?? ""),
-                                          Text(
-                                            category.description ?? "",
-                                            maxLines: 3,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          Text(
-                                            '${category.price}',
-                                          ),
-                                        ],
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(product.title ?? ""),
+                                            Text(
+                                              product.description ?? "",
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              '${product.price}',
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) => SizedBox(height: 100),
-                    itemCount: state.product!.length,
-                  );
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 50),
+                      itemCount: state.productsByCategory.length,
+                    );
+                  } else if (state is ProductError) {
+                    return Center(child: Text(state.message));
+                  }
+                  return Container(); // Fallback case
                 },
               ),
             ),
