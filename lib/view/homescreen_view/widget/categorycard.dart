@@ -16,6 +16,8 @@ class Categorycard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Column(
@@ -24,7 +26,7 @@ class Categorycard extends StatelessWidget {
           Textcard(textquote: title),
           SizedBox(height: 10),
           Container(
-            height: 250, // Fixed height for inner ListView
+            height: size.height * 0.30, // Fixed height for inner ListView
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: itemcount,

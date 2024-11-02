@@ -52,7 +52,7 @@ class Itemcard extends StatelessWidget {
             Text(
               description,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Colorconst.bwhite, fontSize: 16),
+              style: TextStyle(color: Colorconst.bwhite, fontSize: 12),
             ),
             Text(
               '\₹  ${product.price}',
