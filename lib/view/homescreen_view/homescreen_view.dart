@@ -59,7 +59,7 @@ class HomescreenView extends StatelessWidget {
                         );
                       },
                       separatorBuilder: (context, index) =>
-                          SizedBox(height: 50),
+                          SizedBox(height: 30),
                       itemCount: state.productsByCategory.length,
                     );
                   } else if (state is ProductError) {

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class Itemcard extends StatelessWidget {
   final Product product;
-  const Itemcard({super.key, required this.product});
+  final String image;
+
+  const Itemcard({super.key, required this.product, required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class Itemcard extends StatelessWidget {
               color: Colors.grey.withOpacity(.5),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(product.images![0]),
+                image: NetworkImage(image),
               ),
             ),
           ),

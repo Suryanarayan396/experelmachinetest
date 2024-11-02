@@ -45,6 +45,7 @@ class Categorycard extends StatelessWidget {
                   },
                   child: Itemcard(
                     product: product,
+                    image: product.images![0],
                   ),
                 );
               },

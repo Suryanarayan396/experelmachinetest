@@ -17,49 +17,10 @@ class ProductscreenView extends StatelessWidget {
         return Center(child: CircularProgressIndicator()); // Loading state
       } else if (state is ProductDetailLoaded) {
         final product = state.singleproduct;
+        print(product.images.toString());
+        print(product.images![0].toString());
+
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: InkWell(
-              child: Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3), // Shadow color
-                    offset: Offset(4, 4), // Shadow position
-                    blurRadius: 10, // Softness of the shadow
-                    spreadRadius: 1, // Size of the shadow
-                  )
-                ]),
-                child: Center(
-                  child: Icon(Icons.arrow_back_ios_new),
-                ),
-              ),
-            ),
-            actions: [
-              InkWell(
-                child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3), // Shadow color
-                      offset: Offset(4, 4), // Shadow position
-                      blurRadius: 10, // Softness of the shadow
-                      spreadRadius: 1, // Size of the shadow
-                    )
-                  ]),
-                  child: Center(
-                    child: Icon(Icons.shopping_cart),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 20,
-              )
-            ],
-          ),
           backgroundColor: Color(0xffada8ef),
           body: Column(
             children: [
@@ -72,10 +33,27 @@ class ProductscreenView extends StatelessWidget {
                       children: [
                         Row(
                           children: [
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(Icons.arrow_back_ios_new)),
+                            Spacer(),
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.shopping_cart))
+                          ],
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          children: [
                             Spacer(),
                             CircleAvatar(
                               child: Image(
-                                image: NetworkImage(product.images.toString()),
+                                image:
+                                    NetworkImage(product.thumbnail.toString()),
                                 fit: BoxFit.fill,
                               ),
                               radius: 100,
@@ -83,48 +61,36 @@ class ProductscreenView extends StatelessWidget {
                             SizedBox(
                               width: 30,
                             ),
-                            Column(
-                              children: [
-                                Container(
-                                  child: Image(
-                                    image: NetworkImage("url"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff430857),
-                                      borderRadius: BorderRadius.circular(20)),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Container(
-                                  child: Image(
-                                    image: NetworkImage("url"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff430857),
-                                      borderRadius: BorderRadius.circular(20)),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Container(
-                                  child: Image(
-                                    image: NetworkImage("url"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff430857),
-                                      borderRadius: BorderRadius.circular(20)),
-                                ),
-                              ],
+                            Expanded(
+                              child: Container(
+                                height: 200,
+                                child: ListView.separated(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    itemBuilder: (context, index) => Container(
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: Image(
+                                              image: NetworkImage(product
+                                                  .images![index]
+                                                  .toString()),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                              color: Color(0xff430857),
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                        ),
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                    itemCount: product.images!.length),
+                              ),
                             ),
                             SizedBox(
                               width: 30,
@@ -135,7 +101,7 @@ class ProductscreenView extends StatelessWidget {
                           height: 20,
                         ),
                         Text(
-                          "data",
+                          "\$ ${product.price.toString()}",
                           style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w800,
@@ -145,7 +111,7 @@ class ProductscreenView extends StatelessWidget {
                           height: 40,
                         ),
                         Text(
-                          "data",
+                          product.title ?? "",
                           style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -154,6 +120,9 @@ class ProductscreenView extends StatelessWidget {
                         Text(
                           "About the item",
                           style: TextStyle(color: Colors.grey.withOpacity(.9)),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -193,7 +162,7 @@ class ProductscreenView extends StatelessWidget {
                           height: 20,
                         ),
                         Text(
-                          "data",
+                          product.description ?? "",
                           maxLines: 3,
                         )
                       ],
