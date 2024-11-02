@@ -1,3 +1,5 @@
+import 'package:experelmachinetest/utils/constants/colorconst.dart';
+import 'package:experelmachinetest/utils/widgets/textcard.dart';
 import 'package:experelmachinetest/view/productscreen_view/bloc/singleproduct/bloc/singleproduct_bloc.dart';
 import 'package:experelmachinetest/view/productscreen_view/bloc/singleproduct/bloc/singleproduct_event.dart';
 import 'package:experelmachinetest/view/productscreen_view/bloc/singleproduct/bloc/singleproduct_state.dart';
@@ -31,30 +33,32 @@ class ProductscreenView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: Icon(Icons.arrow_back_ios_new)),
-                            Spacer(),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.shopping_cart))
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: Icon(Icons.arrow_back_ios_new)),
+                              Spacer(),
+                              IconButton(
+                                  onPressed: () {}, //to cart page
+                                  icon: Icon(Icons.shopping_cart))
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 15,
                         ),
                         Row(
                           children: [
-                            Spacer(),
                             CircleAvatar(
                               child: Image(
-                                image:
-                                    NetworkImage(product.thumbnail.toString()),
-                                fit: BoxFit.fill,
+                                image: NetworkImage(
+                                    product.thumbnail?.toString() ?? ""),
+                                fit: BoxFit.contain,
                               ),
                               radius: 100,
                             ),
@@ -62,46 +66,36 @@ class ProductscreenView extends StatelessWidget {
                               width: 30,
                             ),
                             Expanded(
-                              child: Container(
-                                height: 200,
-                                child: ListView.separated(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    itemBuilder: (context, index) => Container(
-                                          child: ClipRRect(
+                              child: ListView.separated(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  itemBuilder: (context, index) => Container(
+                                        child: Image(
+                                          image: NetworkImage(product
+                                              .images![index]
+                                              .toString()),
+                                          fit: BoxFit.contain,
+                                        ),
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                            color: Colorconst.primarydark,
                                             borderRadius:
-                                                BorderRadius.circular(20),
-                                            child: Image(
-                                              image: NetworkImage(product
-                                                  .images![index]
-                                                  .toString()),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          height: 50,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                              color: Color(0xff430857),
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                        ),
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                    itemCount: product.images!.length),
-                              ),
+                                                BorderRadius.circular(20)),
+                                      ),
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                  itemCount: product.images!.length),
                             ),
-                            SizedBox(
-                              width: 30,
-                            )
                           ],
                         ),
                         SizedBox(
                           height: 20,
                         ),
                         Text(
-                          "\$ ${product.price.toString()}",
+                          "\₹ ${product.price.toString()}",
                           style: TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.w800,
@@ -128,33 +122,13 @@ class ProductscreenView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             InkWell(
-                              child: Container(
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.withOpacity(.5)),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text("Full Specification"),
-                                  ),
-                                ),
-                              ),
+                              child: Textcard(textquote: "Full Specification"),
                             ),
                             SizedBox(
                               width: 20,
                             ),
                             InkWell(
-                              child: Container(
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.withOpacity(.5)),
-                                child: Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text("Reviews"),
-                                  ),
-                                ),
-                              ),
+                              child: Textcard(textquote: "Reviews"),
                             )
                           ],
                         ),

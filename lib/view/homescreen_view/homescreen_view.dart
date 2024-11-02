@@ -1,3 +1,4 @@
+import 'package:experelmachinetest/utils/constants/colorconst.dart';
 import 'package:experelmachinetest/view/homescreen_view/bloc/product/bloc/product_bloc.dart';
 import 'package:experelmachinetest/view/homescreen_view/bloc/product/bloc/product_state.dart';
 import 'package:experelmachinetest/view/homescreen_view/widget/categorycard.dart';
@@ -11,15 +12,15 @@ class HomescreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     // Providing ProductBloc with the Apiservice
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colorconst.bwhite,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Icon(Icons.menu, color: Colors.black),
+        backgroundColor: Colorconst.primarydark,
+        title: const Icon(Icons.menu, color: Colorconst.bwhite),
         actions: const [
           Icon(
             Icons.shopping_cart,
             size: 30,
-            color: Colors.black,
+            color: Colorconst.bwhite,
           ),
           SizedBox(width: 20),
         ],

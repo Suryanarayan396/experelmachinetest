@@ -1,4 +1,5 @@
 import 'package:experelmachinetest/model/product_model.dart';
+import 'package:experelmachinetest/utils/widgets/textcard.dart';
 import 'package:experelmachinetest/view/homescreen_view/widget/itemcard.dart';
 import 'package:experelmachinetest/view/productscreen_view/productscreen_view.dart';
 import 'package:flutter/material.dart';
@@ -20,13 +21,10 @@ class Categorycard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          Textcard(textquote: title),
           SizedBox(height: 10),
           Container(
-            height: 250, // Fixed height for inner ListView
+            height: 200, // Fixed height for inner ListView
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: itemcount,
@@ -44,9 +42,9 @@ class Categorycard extends StatelessWidget {
                     );
                   },
                   child: Itemcard(
-                    product: product,
-                    image: product.images![0],
-                  ),
+                      product: product,
+                      image: product.images![0],
+                      description: product.description ?? ""),
                 );
               },
             ),
