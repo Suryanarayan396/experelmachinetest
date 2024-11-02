@@ -79,7 +79,7 @@ class ProductscreenView extends StatelessWidget {
                                         height: 50,
                                         width: 50,
                                         decoration: BoxDecoration(
-                                            color: Colorconst.primarydark,
+                                            color: Colorconst.primary,
                                             borderRadius:
                                                 BorderRadius.circular(20)),
                                       ),
