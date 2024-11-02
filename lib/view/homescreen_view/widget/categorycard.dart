@@ -24,7 +24,7 @@ class Categorycard extends StatelessWidget {
           Textcard(textquote: title),
           SizedBox(height: 10),
           Container(
-            height: 200, // Fixed height for inner ListView
+            height: 250, // Fixed height for inner ListView
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: itemcount,

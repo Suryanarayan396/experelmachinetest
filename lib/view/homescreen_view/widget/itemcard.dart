@@ -19,44 +19,47 @@ class Itemcard extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colorconst.primarydark.withOpacity(.5),
           borderRadius: BorderRadius.circular(20)),
-      width: 150,
+      width: 170,
       margin: EdgeInsets.only(right: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colorconst.bwhite,
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(image),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              height: 130,
+              width: 140,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colorconst.bwhite,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(image),
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            product.title ?? "",
-            style: TextStyle(
-                color: Colorconst.bwhite,
-                fontSize: 16,
-                fontWeight: FontWeight.bold),
-          ),
-          Text(
-            description,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colorconst.bwhite, fontSize: 16),
-          ),
-          Text(
-            '\₹${product.price}',
-            style: TextStyle(color: Colorconst.bwhite, fontSize: 16),
-          ),
-        ],
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              product.title ?? "",
+              style: TextStyle(
+                  color: Colorconst.bwhite,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              description,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Colorconst.bwhite, fontSize: 16),
+            ),
+            Text(
+              '\₹  ${product.price}',
+              style: TextStyle(color: Colorconst.bwhite, fontSize: 25),
+            ),
+          ],
+        ),
       ),
     );
   }
