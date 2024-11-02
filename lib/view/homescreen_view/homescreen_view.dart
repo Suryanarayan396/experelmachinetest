@@ -1,6 +1,7 @@
 import 'package:experelmachinetest/view/homescreen_view/bloc/product/bloc/product_bloc.dart';
 
 import 'package:experelmachinetest/view/homescreen_view/bloc/product/bloc/product_state.dart';
+import 'package:experelmachinetest/view/homescreen_view/widget/categorycard.dart';
 
 import 'package:experelmachinetest/view/productscreen_view/productscreen_view.dart';
 import 'package:flutter/material.dart';
@@ -54,78 +55,10 @@ class HomescreenView extends StatelessWidget {
                             state.productsByCategory.keys.toList()[index];
                         final products =
                             state.productsByCategory[category] ?? [];
-                        return Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                category,
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Container(
-                                height: 250, // Fixed height for inner ListView
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: products.length,
-                                  itemBuilder: (context, itemIndex) {
-                                    final product = products[itemIndex];
-                                    return InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProductscreenView(),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        width: 150,
-                                        margin: EdgeInsets.only(right: 10),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              height: 100,
-                                              width: 100,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color:
-                                                    Colors.grey.withOpacity(.5),
-                                                image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                      product.images![0]),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Text(product.title ?? ""),
-                                            Text(
-                                              product.description ?? "",
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            Text(
-                                              '${product.price}',
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                        return Categorycard(
+                          title: category,
+                          itemcount: products.length,
+                          products: products,
                         );
                       },
                       separatorBuilder: (context, index) =>
